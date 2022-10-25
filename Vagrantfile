@@ -1,6 +1,7 @@
 guest_ip  = "192.168.0.3"
 script = 
 "
+# setup nginx
 sudo su -
 apt update
 apt install nginx -y
@@ -8,15 +9,18 @@ rm /etc/nginx/sites-enabled/default
 rm /etc/nginx/sites-available/default
 systemctl reload nginx
 
+# install php and php-extenssion
 sudo apt install software-properties-common
 yes '' | sudo add-apt-repository ppa:ondrej/php
 sudo apt install php8.0 php8.0-fpm php8.0-mysql -y
 
+# setup db
 apt install mariadb-server mariadb-client -y
 echo 'create database if not exists appointments;' | mysql
 echo 'create user if not exists tuan;' | mysql
 echo 'grant all on appointments.* to tuan@localhost identified by \"tuanabc123\";' | mysql
 
+# install git and setup source code
 sudo apt install git
 cd /var/www/
 git clone https://github.com/WordPress/WordPress.git
