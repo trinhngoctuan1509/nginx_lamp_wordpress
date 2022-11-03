@@ -1,6 +1,5 @@
-guest_ip  = "192.168.0.3"
-script = 
-"
+#!/bin/bash
+
 # setup nginx
 sudo su -
 apt update
@@ -17,7 +16,7 @@ sudo apt install php8.0 php8.0-fpm php8.0-mysql -y
 apt install mariadb-server mariadb-client -y
 echo 'create database if not exists top6vn;' | mysql
 echo 'create user if not exists tuantn;' | mysql
-echo 'grant all on top6vn.* to tuantn@localhost identified by \"tuantn\";' | mysql
+echo 'grant all on top6vn.* to tuantn@localhost identified by "tuantn";' | mysql
 
 # install git and setup source code
 sudo apt install git
@@ -32,10 +31,3 @@ git clone https://github.com/trinhngoctuan1509/nginx_config_top6vn_http.git
 cp /var/www/nginx_config_top6vn_http/top6vn.com.conf /etc/nginx/conf.d/top6vn.com.conf
 rm -r /var/www/nginx_config_top6vn_http
 systemctl reload nginx
-"
-
-Vagrant.configure("2") do |config|
-  config.vm.box = "bento/ubuntu-18.04"
-  config.vm.network "private_network", ip: guest_ip
-  config.vm.provision "shell", inline: script
-end
